@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  server.Task:
+    properties:
+      code:
+        type: string
+      compiler:
+        type: string
+      id:
+        type: string
+      result:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server...
+  title: My API
+  version: "1.0"
+paths:
+  /result:
+    get:
+      description: Gets the result of a task by its ID.
+      parameters:
+      - description: Task ID
+        in: query
+        name: task_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task result
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Task not found or not ready
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get task result
+      tags:
+      - task
+  /status:
+    get:
+      description: Gets the status of a task by its ID.
+      parameters:
+      - description: Task ID
+        in: query
+        name: task_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task status
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Task not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get task status
+      tags:
+      - task
+  /task:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new task with given code and compiler.
+      parameters:
+      - description: Task data
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/server.Task'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Task created successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new task
+      tags:
+      - task
+swagger: "2.0"
